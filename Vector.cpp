@@ -137,6 +137,13 @@ public:
 
 	//D
 	//Element Access
-	int& operator[](int n) const;//n'th element
+	int& operator[](int n) const//n'th element
+	{
+		if (n >= this->_size || n < 0) {
+			throw std::out_of_range("Index out of bounds");
+		}
+		return this->_elements[n];
+	}
+
 
 };
