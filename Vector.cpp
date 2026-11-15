@@ -18,96 +18,106 @@ public:
 		{
 			n = 2;
 		}
-		_elements = new int[n];
-		_capacity = n;
-		_size = 0;
-		_resizeFactor = n;
+		this->_elements = new int[n];
+		this->_capacity = n;
+		this->_size = 0;
+		this->_resizeFactor = n;
 	}
 	~Vector()
 	{
-		delete[] _elements;
+		delete[] this->_elements;
 	}
 	int size() const//return size of vector
 	{
-		return _size;
+		return this->_size;
 	}
 	int capacity() const//return capacity of vector
 	{
-		return _capacity;
+		return this->_capacity;
 	}
 	int resizeFactor() const//return vector's resizeFactor
 	{
-		return _resizeFactor;
+		return this->_resizeFactor;
 	}
 	bool empty() const//returns true if size = 0
 	{
-		return _size == 0;
+		return this->_size == 0;
 	}
 
 	//B
 	//Modifiers
 	void push_back(const int& val)//adds element at the end of the vector
 	{
-		if (_size == _capacity)
+		if (this->_size == this->_capacity)
 		{
-			reserve(_capacity + _resizeFactor);
+			reserve(this->_capacity + this->_resizeFactor);
 		}
-		_elements[_size] = val;
-		_size++;
+		this->_elements[this->_size] = val;
+		this->_size++;
 	}
 	int pop_back()//removes and returns the last element of the vector
 	{
-		int lastElement = _elements[_size - 1];
-		_elements[_size - 1] = 0;
-		_size--;
+		int lastElement = this->_elements[this->_size - 1];
+		this->_elements[this->_size - 1] = 0;
+		this->_size--;
 		return lastElement;
 	}
 	void reserve(const int n)//change the capacity
 	{
-		if (_capacity >= n)
+		if (this->_capacity >= n)
 		{
 			return;
 		}
 		int* newElements = new int[n];
-		for (int i = 0; i < _size; i++)
+		for (int i = 0; i < this->_size; i++)
 		{
-			newElements[i] = _elements[i];
+			newElements[i] = this->_elements[i];
 		}
-		delete[] _elements;
-		_elements = newElements;
-		_capacity = n;
+		delete[] this->_elements;
+		this->_elements = newElements;
+		this->_capacity = n;
 	}
 	void resize(const int n)//change _size to n, unless n is greater than the vector's capacity
 	{
-		if (n > _capacity)
+		if (n > this->_capacity)
 		{
 			reserve(n);
 		}
-		_size = n;
+		this->_size = n;
 	}
 	void assign(const int val)//assigns val to all elemnts
 	{
-		for (int i = 0; i < _size; i++)
+		for (int i = 0; i < this->_size; i++)
 		{
-			_elements[i] = val;
+			this->_elements[i] = val;
 		}
 	}
 	void resize(const int n, const int& val)//same as above, if new elements added their value is val
 	{
-		if (n > _capacity)
+		if (n > this->_capacity)
 		{
 			reserve(n);
 		}
-		for (int i = _size; i < n; i++)
+		for (int i = this->_size; i < n; i++)
 		{
-			_elements[i] = val;
+			this->_elements[i] = val;
 		}
-		_size = n;
+		this->_size = n;
 	}
 
 	//C
 	//The big three (d'tor is above)
-	Vector(const Vector& other);
+	Vector(const Vector& other)
+	{
+		this->_elements = new int[other._capacity];
+		for (int i = 0; i < other._size; i++)
+		{
+			this->_elements[i] = other._elements[i];
+		}
+		this->_capacity = other._capacity;
+		this->_size = other._size;
+		this->_resizeFactor = other._resizeFactor;
+	}
 	Vector& operator=(const Vector& other);
 
 	//D
