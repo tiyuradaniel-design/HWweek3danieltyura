@@ -21,9 +21,9 @@ public:
 		_elements = new int[n];
 		_capacity = n;
 		_size = 0;
-		_resizeFactor = 2;
+		_resizeFactor = n;
 	}
-	~Vector() 
+	~Vector()
 	{
 		delete[] _elements;
 	}
@@ -46,12 +46,64 @@ public:
 
 	//B
 	//Modifiers
-	void push_back(const int& val);//adds element at the end of the vector
-	int pop_back();//removes and returns the last element of the vector
-	void reserve(const int n);//change the capacity
-	void resize(const int n);//change _size to n, unless n is greater than the vector's capacity
-	void assign(const int val);//assigns val to all elemnts
-	void resize(const int n, const int& val);//same as above, if new elements added their value is val
+	void push_back(const int& val)//adds element at the end of the vector
+	{
+		if (_size == _capacity)
+		{
+			reserve(_capacity + _resizeFactor);
+		}
+		_elements[_size] = val;
+		_size++;
+	}
+	int pop_back()//removes and returns the last element of the vector
+	{
+		int lastElement = _elements[_size - 1];
+		_elements[_size - 1] = 0;
+		_size--;
+		return lastElement;
+	}
+	void reserve(const int n)//change the capacity
+	{
+		if (_capacity >= n)
+		{
+			return;
+		}
+		int* newElements = new int[n];
+		for (int i = 0; i < _size; i++)
+		{
+			newElements[i] = _elements[i];
+		}
+		delete[] _elements;
+		_elements = newElements;
+		_capacity = n;
+	}
+	void resize(const int n)//change _size to n, unless n is greater than the vector's capacity
+	{
+		if (n > _capacity)
+		{
+			reserve(n);
+		}
+		_size = n;
+	}
+	void assign(const int val)//assigns val to all elemnts
+	{
+		for (int i = 0; i < _size; i++)
+		{
+			_elements[i] = val;
+		}
+	}
+	void resize(const int n, const int& val)//same as above, if new elements added their value is val
+	{
+		if (n > _capacity)
+		{
+			reserve(n);
+		}
+		for (int i = _size; i < n; i++)
+		{
+			_elements[i] = val;
+		}
+		_size = n;
+	}
 
 	//C
 	//The big three (d'tor is above)
