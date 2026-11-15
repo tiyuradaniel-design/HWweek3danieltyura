@@ -26,6 +26,9 @@ public:
 	~Vector()
 	{
 		delete[] this->_elements;
+		this->_capacity = 0;
+		this->_size = 0;
+		this->_resizeFactor = 0;
 	}
 	int size() const//return size of vector
 	{
@@ -118,7 +121,19 @@ public:
 		this->_size = other._size;
 		this->_resizeFactor = other._resizeFactor;
 	}
-	Vector& operator=(const Vector& other);
+	Vector& operator=(const Vector& other)
+	{
+		this->~Vector();
+		this->_elements = new int[other._capacity];
+		for (int i = 0; i < other._size; i++)
+		{
+			this->_elements[i] = other._elements[i];
+		}
+		this->_capacity = other._capacity;
+		this->_size = other._size;
+		this->_resizeFactor = other._resizeFactor;
+		return *this;
+	}
 
 	//D
 	//Element Access
